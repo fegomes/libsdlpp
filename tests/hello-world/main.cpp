@@ -3,8 +3,7 @@
 #include "libsdlpp/window.hpp"
 
 int main(int argc, char* argv[]) {
-	libsdlpp::window w;
-	
+	libsdlpp::window w("Hello World", 800, 600);
 
 	w.init();
 
