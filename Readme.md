@@ -1,3 +1,4 @@
+```
 cmake .. -DSDL2_INCLUDE_DIR=C:/Projects/SDL/include `
          -DSDL2_LIBRARY=C:/Projects/SDL/build/Release/SDL2.lib `
          -DSDL2_MAIN_LIBRARY=C:/Projects/SDL/build/Release/SDL2main.lib `
@@ -9,3 +10,4 @@ cmake .. -DSDL2_INCLUDE_DIR=C:/Projects/SDL/include `
          -DSDL2_TTF_LIBRARY=C:/Projects/SDL_ttf/build/Release/SDL2_ttf.lib `
          -DSDL2_NET_INCLUDE_DIR=C:/Projects/SDL_net `
          -DSDL2_NET_LIBRARY=C:/Projects/SDL_net/build/Release/SDL2_net.lib
+```
