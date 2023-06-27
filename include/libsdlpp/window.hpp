@@ -29,15 +29,22 @@ namespace libsdlpp {
 	class window {
 
 	public:
-		window() : title_(""), width_(100), height_(100), running_(true) {}
+		window() : id_(-1), title_(""), width_(100), height_(100), running_(true), child_(nullptr), event_() {}
 
 		window(const std::string& title, uint16_t width, uint16_t height) :
-			title_(title), width_(width), height_(height), running_(true) {}
+			id_(-1), title_(title), width_(width), height_(height), running_(true), child_(nullptr), event_() {}
 
 		~window() {
 			SDL_StopTextInput();
 
-			window_.release();
+			TTF_Quit();
+			IMG_Quit();
+
+			SDL_QuitSubSystem(SDL_INIT_AUDIO);
+
+			if (window_) {
+				window_.release();
+			}
 		}
 
 	public:
@@ -120,8 +127,8 @@ namespace libsdlpp {
 
 			SDL_RenderClear(renderer_.get());
 
-			for (auto ci = childs_.begin(); ci != childs_.end(); ci++) {
-				(*ci).render(renderer_);
+			if (child_) {
+				child_->render(renderer_);
 			}
 
 			SDL_RenderPresent(renderer_.get());
@@ -146,6 +153,10 @@ namespace libsdlpp {
 			SDL_SetWindowSize(window_.get(), width_, height_);
 		}
 
+		void set_child(node* child) {
+			child_.reset(child);
+		}
+
 		void quit() {
 			running_ = false;
 		}
@@ -168,6 +179,6 @@ namespace libsdlpp {
 
 		bool running_;
 
-		std::vector<node> childs_;
+		std::unique_ptr<node> child_;
 	};
 }

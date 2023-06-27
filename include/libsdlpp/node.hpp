@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <vector>
 
 #include "color.hpp"
@@ -7,8 +8,11 @@
 namespace libsdlpp {
 	class node {
 	public:
-		node() : parent_(nullptr), visible_(true), x_(0), y_(0), width_(0), height_(0) {}
 		node(std::shared_ptr<node> parent) : parent_(parent), visible_(true), x_(0), y_(0), width_(0), height_(0) {}
+
+		~node(){
+			childs_.clear();
+		}
 
 		uint16_t x() const {
 			return x_;
@@ -32,6 +36,9 @@ namespace libsdlpp {
 
 		void render(sdl_renderer_ptr renderer) {
 			if (visible()) {
+
+				on_render(renderer);
+
 				for (auto ci = childs_.begin(); ci != childs_.end(); ci++) {
 					if (visible()) {
 						(*ci)->on_render(renderer);
