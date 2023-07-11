@@ -1,15 +1,18 @@
 #pragma once
 
+#include <chrono>
+
 #include "shape2d.hpp"
 #include "color.hpp"
 
 namespace libsdlpp {
 	class triangle2d : public shape2d {
 	public:
-		triangle2d(std::shared_ptr<node> parent, uint16_t w, uint16_t h, color bg, position pos = position(0,0)) :
+		triangle2d(std::shared_ptr<node> parent, uint16_t w, uint16_t h, color border, color background, position pos = position(0,0)) :
 			shape2d(parent, pos) {
 			set_size(w, h);
-			background_color_ = bg;
+			border_color_ = border;
+			background_color_ = background;
 		}
 
 		void set_pos(position p) {
@@ -31,32 +34,51 @@ namespace libsdlpp {
 
 			right_.set_x(width_ + pos_.x());
 			right_.set_y(height_ + pos_.y());
+
+			verts_ = {
+				{ top_.to_fpoint(), background_color_.to_sdl(), SDL_FPoint{ 0 }, },
+				{ left_.to_fpoint(), background_color_.to_sdl(), SDL_FPoint{ 0 }, },
+				{ right_.to_fpoint(), background_color_.to_sdl(), SDL_FPoint{ 0 }, },
+			};
 		}
 
 		color background_color() const {
 			return this->background_color_;
 		}
 
+		std::chrono::steady_clock::time_point begin;
+		std::chrono::steady_clock::time_point end;
+
 		void on_render(sdl_renderer_ptr renderer) {
+
+			const std::vector<SDL_Vertex> verts = {
+				{ top_.to_fpoint(), background_color_.to_sdl(), SDL_FPoint{ 0 }, },
+				{ left_.to_fpoint(), background_color_.to_sdl(), SDL_FPoint{ 0 }, },
+				{ right_.to_fpoint(), background_color_.to_sdl(), SDL_FPoint{ 0 }, },
+			};
+
+			SDL_RenderGeometry(renderer.get(), nullptr, verts.data(), (int) verts.size(), nullptr, 0);
 
 			SDL_SetRenderDrawColor(
 				renderer.get(),
-				background_color_.red,
-				background_color_.green,
-				background_color_.blue,
-				background_color_.alpha);
+				border_color_.red_,
+				border_color_.green_,
+				border_color_.blue_,
+				border_color_.alpha_);
 
 			SDL_RenderDrawLine(renderer.get(), left_.x(), left_.y(), top_.x(), top_.y());
 			SDL_RenderDrawLine(renderer.get(), top_.x(), top_.y(), right_.x(), right_.y());
 			SDL_RenderDrawLine(renderer.get(), right_.x(), right_.y(), left_.x(), left_.y());
-
 		}
 
 	protected:
 		color background_color_;
+		color border_color_;
 
 		position top_;
 		position left_;
 		position right_;
+
+		std::vector<SDL_Vertex> verts_;
 	};
 }

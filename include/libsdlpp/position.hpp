@@ -1,6 +1,8 @@
 #pragma once
 #include <cassert>
 
+#include <SDL_rect.h>
+
 namespace libsdlpp {
 	class position {
 	public:
@@ -35,6 +37,14 @@ namespace libsdlpp {
 
 		uint16_t y() const {
 			return this->y_;
+		}
+
+		SDL_FPoint to_fpoint() const {
+			return SDL_FPoint{ (float) x_, (float) y_ };
+		}
+
+		SDL_Point to_point() const {
+			return SDL_Point{ (int) x_, (int) y_ };
 		}
 
 	public:

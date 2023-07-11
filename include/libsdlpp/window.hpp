@@ -121,10 +121,10 @@ namespace libsdlpp {
 		void render() {
 			SDL_SetRenderDrawColor(
 				renderer_.get(), 
-				background_color_.red, 
-				background_color_.green,
-				background_color_.blue,
-				background_color_.alpha);
+				background_color_.red_, 
+				background_color_.green_,
+				background_color_.blue_,
+				background_color_.alpha_);
 
 			SDL_RenderClear(renderer_.get());
 

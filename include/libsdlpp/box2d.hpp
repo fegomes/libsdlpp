@@ -20,10 +20,10 @@ namespace libsdlpp {
 
 			SDL_SetRenderDrawColor(
 				renderer.get(),
-				background_color_.red, 
-				background_color_.green, 
-				background_color_.blue,
-				background_color_.alpha);
+				background_color_.red_,
+				background_color_.green_,
+				background_color_.blue_,
+				background_color_.alpha_);
 
 			SDL_Rect r;
 			r.x = pos_.x();
