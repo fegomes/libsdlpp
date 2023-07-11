@@ -1,0 +1,71 @@
+﻿{
+  "configurations": [
+    {
+      "name": "x64-Debug",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "variables": [
+        {
+          "name": "SDL2_INCLUDE_DIR",
+          "value": "C:/Projects/SDL/include",
+          "type": "PATH"
+        },
+        {
+          "name": "SDL2_LIBRARY",
+          "value": "C:/Projects/SDL/build/Release/SDL2.lib",
+          "type": "PATH"
+        },
+        {
+          "name": "SDL2_MAIN_LIBRARY",
+          "value": "C:/Projects/SDL/build/Release/SDL2main.lib",
+          "type": "PATH"
+        },
+        {
+          "name": "SDL2_IMAGE_INCLUDE_DIR",
+          "value": "C:/Projects/SDL_image",
+          "type": "PATH"
+        },
+        {
+          "name": "SDL2_IMAGE_LIBRARY",
+          "value": "C:/Projects/SDL_image/build/Release/SDL2_image.lib",
+          "type": "PATH"
+        },
+        {
+          "name": "SDL2_MIXER_INCLUDE_DIR",
+          "value": "C:/Projects/SDL_mixer/include",
+          "type": "PATH"
+        },
+        {
+          "name": "SDL2_MIXER_LIBRARY",
+          "value": "C:/Projects/SDL_mixer/build/Release/SDL2_mixer.lib",
+          "type": "PATH"
+        },
+        {
+          "name": "SDL2_TTF_INCLUDE_DIR",
+          "value": "C:/Projects/SDL_ttf",
+          "type": "PATH"
+        },
+        {
+          "name": "SDL2_TTF_LIBRARY",
+          "value": "C:/Projects/SDL_ttf/build/Release/SDL2_ttf.lib",
+          "type": "PATH"
+        },
+        {
+          "name": "SDL2_NET_INCLUDE_DIR",
+          "value": "C:/Projects/SDL_net",
+          "type": "PATH"
+        },
+        {
+          "name": "SDL2_NET_LIBRARY",
+          "value": "C:/Projects/SDL_net/build/Release/SDL2_net.lib",
+          "type": "PATH"
+        }
+      ]
+    }
+  ]
+}

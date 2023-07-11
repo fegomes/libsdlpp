@@ -4,10 +4,12 @@ namespace libsdlpp {
 	class color {
 	public:
 		color() :
-			red(g_red), green(g_green), blue(g_blue), alpha(g_alpha) {}
+			red(g_red), green(g_green), blue(g_blue), alpha(g_alpha) {
+		}
 
 		color(uint8_t r, uint8_t g, uint8_t b, uint8_t a) :
-			red(r), green(g), blue(b), alpha(a) {}
+			red(r), green(g), blue(b), alpha(a) {
+		}
 
 	public:
 		uint8_t red;

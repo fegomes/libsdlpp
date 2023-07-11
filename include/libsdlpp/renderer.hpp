@@ -1,6 +1,8 @@
 #pragma once
 #include <memory>
 
+#include <SDL_render.h>
+
 namespace libsdlpp {
 
 	struct SDLRenderedDestroyer {

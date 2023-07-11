@@ -1,16 +1,19 @@
 #pragma once
 
-#include "node.hpp"
+#include "shape2d.hpp"
 #include "color.hpp"
 
 namespace libsdlpp {
-	class box : public node {
+	class box2d : public shape2d {
 	public:
-		box(std::shared_ptr<node> parent, uint16_t width, uint16_t height, color bg) : 
-			node(parent) {
-			width_ = width;
-			height_ = height;
+		box2d(std::shared_ptr<node> parent, uint16_t w, uint16_t h, color bg, position pos = position(0, 0)) :
+			shape2d(parent, pos) {
+			set_size(w, h);
 			background_color_ = bg;
+		}
+
+		color background_color() const {
+			return this->background_color_;
 		}
 
 		void on_render(sdl_renderer_ptr renderer) {
@@ -23,8 +26,8 @@ namespace libsdlpp {
 				background_color_.alpha);
 
 			SDL_Rect r;
-			r.x = x_;
-			r.y = y_;
+			r.x = pos_.x();
+			r.y = pos_.y();
 			r.w = width_;
 			r.h = height_;
 

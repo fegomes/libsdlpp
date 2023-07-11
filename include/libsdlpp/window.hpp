@@ -32,7 +32,8 @@ namespace libsdlpp {
 		window() : id_(-1), title_(""), width_(100), height_(100), running_(true), child_(nullptr), event_() {}
 
 		window(const std::string& title, uint16_t width, uint16_t height) :
-			id_(-1), title_(title), width_(width), height_(height), running_(true), child_(nullptr), event_() {}
+			id_(-1), title_(title), width_(width), height_(height), running_(true), child_(nullptr), event_() {
+		}
 
 		~window() {
 			SDL_StopTextInput();
@@ -134,31 +135,34 @@ namespace libsdlpp {
 			SDL_RenderPresent(renderer_.get());
 		}
 
-		void set_background_color(color c) {
-			background_color_ = c;
+		void set_background_color(color bc) {
+			background_color_ = bc;
 		}
 
-		void set_title(const std::string title) {
-			title_ = title;
+		void set_title(const std::string t) {
+			this->title_ = t;
 			SDL_SetWindowTitle(window_.get(), title_.c_str());
 		}
 
-		void set_height(const uint32_t height) {
-			height_ = height;
+		void set_height(const uint32_t h) {
+			assert(h >= 0);
+			this->height_ = h;
 			SDL_SetWindowSize(window_.get(), width_, height_);
 		}
 
-		void set_width(const uint32_t width) {
-			width_ = width;
+		void set_width(const uint32_t w) {
+			assert(w >= 0);
+			this->width_ = w;
 			SDL_SetWindowSize(window_.get(), width_, height_);
 		}
 
 		void set_child(node* child) {
-			child_.reset(child);
+			assert(child != nullptr);
+			this->child_.reset(child);
 		}
 
 		void quit() {
-			running_ = false;
+			this->running_ = false;
 		}
 
 	protected:
