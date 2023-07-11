@@ -34,20 +34,15 @@ namespace libsdlpp {
 
 			right_.set_x(width_ + pos_.x());
 			right_.set_y(height_ + pos_.y());
-
-			verts_ = {
-				{ top_.to_fpoint(), background_color_.to_sdl(), SDL_FPoint{ 0 }, },
-				{ left_.to_fpoint(), background_color_.to_sdl(), SDL_FPoint{ 0 }, },
-				{ right_.to_fpoint(), background_color_.to_sdl(), SDL_FPoint{ 0 }, },
-			};
 		}
 
 		color background_color() const {
 			return this->background_color_;
 		}
 
-		std::chrono::steady_clock::time_point begin;
-		std::chrono::steady_clock::time_point end;
+		color border_color() const {
+			return this->border_color_;
+		}
 
 		void on_render(sdl_renderer_ptr renderer) {
 
@@ -78,7 +73,5 @@ namespace libsdlpp {
 		position top_;
 		position left_;
 		position right_;
-
-		std::vector<SDL_Vertex> verts_;
 	};
 }
