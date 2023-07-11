@@ -6,10 +6,11 @@
 namespace libsdlpp {
 	class box2d : public shape2d {
 	public:
-		box2d(std::shared_ptr<node> parent, uint16_t w, uint16_t h, color bg, position pos = position(0, 0)) :
+		box2d(std::shared_ptr<node> parent, uint16_t w, uint16_t h, position pos = position(0, 0), color border = color::black(), color background = color::white()) :
 			shape2d(parent, pos) {
 			set_size(w, h);
-			background_color_ = bg;
+			border_color_ = border;
+			background_color_ = background;
 		}
 
 		color background_color() const {
@@ -32,9 +33,22 @@ namespace libsdlpp {
 			r.h = height_;
 
 			SDL_RenderFillRect(renderer.get(), &r);
+
+			SDL_SetRenderDrawColor(
+				renderer.get(),
+				border_color_.red_,
+				border_color_.green_,
+				border_color_.blue_,
+				border_color_.alpha_);
+
+			SDL_RenderDrawLine(renderer.get(), pos_.x(), pos_.y(), pos_.x(), width_ + pos_.x());
+			SDL_RenderDrawLine(renderer.get(), pos_.x(), width_ + pos_.x(), height_ + pos_.y(), width_ + pos_.x());
+			SDL_RenderDrawLine(renderer.get(), height_ + pos_.y(), width_ + pos_.x(), height_ + pos_.y(), pos_.y());
+			SDL_RenderDrawLine(renderer.get(), height_ + pos_.y(), pos_.y(), pos_.x(), pos_.y());
 		}
 
 	protected:
 		color background_color_;
+		color border_color_;
 	};
 }
