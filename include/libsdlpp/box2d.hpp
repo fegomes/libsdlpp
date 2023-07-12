@@ -6,15 +6,11 @@
 namespace libsdlpp {
 	class box2d : public shape2d {
 	public:
-		box2d(std::shared_ptr<node> parent, uint16_t w, uint16_t h, position pos = position(0, 0), color border = color::black(), color background = color::white()) :
+		box2d(std::shared_ptr<node> parent, uint16_t w, uint16_t h, position pos = position(0, 0), color bc = color::black()) :
 			shape2d(parent, pos) {
 			set_size(w, h);
-			border_color_ = border;
-			background_color_ = background;
-		}
-
-		color background_color() const {
-			return this->background_color_;
+			border_color_ = color::white();
+			background_color_ = bc;
 		}
 
 		void on_render(sdl_renderer_ptr renderer) {
@@ -34,21 +30,20 @@ namespace libsdlpp {
 
 			SDL_RenderFillRect(renderer.get(), &r);
 
-			SDL_SetRenderDrawColor(
-				renderer.get(),
-				border_color_.red_,
-				border_color_.green_,
-				border_color_.blue_,
-				border_color_.alpha_);
+			if(border_) {
+				SDL_SetRenderDrawColor(
+					renderer.get(),
+					border_color_.red_,
+					border_color_.green_,
+					border_color_.blue_,
+					border_color_.alpha_);
 
-			SDL_RenderDrawLine(renderer.get(), pos_.x(), pos_.y(), pos_.x(), width_ + pos_.x());
-			SDL_RenderDrawLine(renderer.get(), pos_.x(), width_ + pos_.x(), height_ + pos_.y(), width_ + pos_.x());
-			SDL_RenderDrawLine(renderer.get(), height_ + pos_.y(), width_ + pos_.x(), height_ + pos_.y(), pos_.y());
-			SDL_RenderDrawLine(renderer.get(), height_ + pos_.y(), pos_.y(), pos_.x(), pos_.y());
+				SDL_RenderDrawLine(renderer.get(), pos_.x(), pos_.y(), pos_.x(), width_ + pos_.x());
+				SDL_RenderDrawLine(renderer.get(), pos_.x(), width_ + pos_.x(), height_ + pos_.y(), width_ + pos_.x());
+				SDL_RenderDrawLine(renderer.get(), height_ + pos_.y(), width_ + pos_.x(), height_ + pos_.y(), pos_.y());
+				SDL_RenderDrawLine(renderer.get(), height_ + pos_.y(), pos_.y(), pos_.x(), pos_.y());
+			}
 		}
 
-	protected:
-		color background_color_;
-		color border_color_;
 	};
 }

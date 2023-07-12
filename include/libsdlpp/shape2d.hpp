@@ -9,5 +9,31 @@ namespace libsdlpp {
 			node(parent) {
 			set_pos(pos);
 		}
+
+		color background_color() const {
+			return this->background_color_;
+		}
+
+		color border_color() const {
+			return this->border_color_;
+		}
+
+		void show_border() {
+			this->border_ = true;
+		}
+
+		void hide_border() {
+			this->border_ = false;
+		}
+
+		void set_border_color(color c) {
+			this->border_color_ = c;
+		}
+
+	protected:
+		color background_color_;
+		color border_color_;
+
+		bool border_;
 	};
 }

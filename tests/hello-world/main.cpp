@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
 
 	window w("Hello World", 800, 600);
 
-	auto b = std::make_unique<box2d>(nullptr, 100,100, position(100, 100), color::green(), color::red());
+	auto b = std::make_unique<box2d>(nullptr, 100,100, position(100, 100), color::red());
 
 	w.init();
 	w.set_child(b.release());

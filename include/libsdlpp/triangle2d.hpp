@@ -8,10 +8,10 @@
 namespace libsdlpp {
 	class triangle2d : public shape2d {
 	public:
-		triangle2d(std::shared_ptr<node> parent, uint16_t w, uint16_t h, position pos = position(0, 0), color border = color::black(), color background = color::white()) :
+		triangle2d(std::shared_ptr<node> parent, uint16_t w, uint16_t h, position pos = position(0, 0), color background = color::black()) :
 			shape2d(parent, pos) {
 			set_size(w, h);
-			border_color_ = border;
+			border_color_ = color::white();
 			background_color_ = background;
 		}
 
@@ -36,14 +36,6 @@ namespace libsdlpp {
 			right_.set_y(height_ + pos_.y());
 		}
 
-		color background_color() const {
-			return this->background_color_;
-		}
-
-		color border_color() const {
-			return this->border_color_;
-		}
-
 		void on_render(sdl_renderer_ptr renderer) {
 
 			const std::vector<SDL_Vertex> verts = {
@@ -54,22 +46,21 @@ namespace libsdlpp {
 
 			SDL_RenderGeometry(renderer.get(), nullptr, verts.data(), (int) verts.size(), nullptr, 0);
 
-			SDL_SetRenderDrawColor(
-				renderer.get(),
-				border_color_.red_,
-				border_color_.green_,
-				border_color_.blue_,
-				border_color_.alpha_);
+			if (border_) {
+				SDL_SetRenderDrawColor(
+					renderer.get(),
+					border_color_.red_,
+					border_color_.green_,
+					border_color_.blue_,
+					border_color_.alpha_);
 
-			SDL_RenderDrawLine(renderer.get(), left_.x(), left_.y(), top_.x(), top_.y());
-			SDL_RenderDrawLine(renderer.get(), top_.x(), top_.y(), right_.x(), right_.y());
-			SDL_RenderDrawLine(renderer.get(), right_.x(), right_.y(), left_.x(), left_.y());
+				SDL_RenderDrawLine(renderer.get(), left_.x(), left_.y(), top_.x(), top_.y());
+				SDL_RenderDrawLine(renderer.get(), top_.x(), top_.y(), right_.x(), right_.y());
+				SDL_RenderDrawLine(renderer.get(), right_.x(), right_.y(), left_.x(), left_.y());
+			}
 		}
 
 	protected:
-		color background_color_;
-		color border_color_;
-
 		position top_;
 		position left_;
 		position right_;
