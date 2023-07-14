@@ -6,7 +6,8 @@ set(CMAKE_CXX_STANDARD 17)
 
 file(GLOB src "include/libsdlpp/*.hpp")
 
-add_library(libsdlpp INTERFACE ${src})
+add_library(libsdlpp INTERFACE)
+target_sources(libsdlpp INTERFACE ${src})
 
 set_property(
     TARGET libsdlpp PROPERTY
