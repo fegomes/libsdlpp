@@ -26,6 +26,10 @@ namespace libsdlpp {
 			this->border_ = false;
 		}
 
+		void set_background_color(color c) {
+			this->background_color_ = c;
+		}
+
 		void set_border_color(color c) {
 			this->border_color_ = c;
 		}

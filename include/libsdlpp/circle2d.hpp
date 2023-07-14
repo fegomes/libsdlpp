@@ -8,12 +8,13 @@
 namespace libsdlpp {
 	class circle2d : public shape2d {
 	public:
-		circle2d(std::shared_ptr<node> parent, uint16_t radius, position pos = position(0, 0), color background = color::black()) :
+		circle2d(std::shared_ptr<node> parent, uint16_t radius, position pos = position(0, 0), color bc = color::black()) :
 			shape2d(parent, pos), radius_(radius) {
-			border_color_ = color::white();
-			background_color_ = background;
+			set_border_color(color::white());
+			set_background_color(bc);
 			pos_.set_x(pos_.x() + radius);
 			pos_.set_y(pos_.y() + radius);
+			ignore_events();
 		}
 
 		void on_render(sdl_renderer_ptr renderer) {

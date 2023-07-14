@@ -12,7 +12,7 @@ namespace libsdlpp {
 	class node {
 	public:
 		node(std::shared_ptr<node> parent) : 
-			parent_(parent), visible_(true), pos_(0,0), width_(0), height_(0) {
+			parent_(parent), visible_(true), handle_events_(true), pos_(0,0), width_(0), height_(0) {
 		}
 
 		~node() { 
@@ -62,6 +62,22 @@ namespace libsdlpp {
 			return this->visible_;
 		}
 
+		void hide() {
+			this->visible_ = false;
+		}
+
+		void show() {
+			this->visible_ = true;
+		}
+
+		void ignore_events() {
+			handle_events_ = false;
+		}
+		
+		void accept_events() {
+			handle_events_ = true;
+		}
+
 		void render(sdl_renderer_ptr renderer) {
 			if (visible()) {
 
@@ -76,19 +92,22 @@ namespace libsdlpp {
 		}
 
 		void handle_event(const SDL_Event& e) {
+			if (handle_events_) {
+				on_handle_event(e);
 
-			on_handle_event(e);
-
-			for (auto ci = childs_.begin(); ci != childs_.end(); ci++) {
-				(*ci)->on_handle_event(e);
+				for (auto ci = childs_.begin(); ci != childs_.end(); ci++) {
+					(*ci)->on_handle_event(e);
+				}
 			}
 		}
 
 		void async_handle_event(const SDL_Event& e) {
-			std::future<void> discart = std::async(std::launch::async, std::bind(&node::on_async_handle_event, this, std::placeholders::_1), e);
+			if (handle_events_) {
+				std::future<void> discart = std::async(std::launch::async, std::bind(&node::on_async_handle_event, this, std::placeholders::_1), e);
 
-			for (auto ci = childs_.begin(); ci != childs_.end(); ci++) {
-				discart = std::async(std::launch::async, std::bind(&node::on_async_handle_event, (*ci), std::placeholders::_1), e);
+				for (auto ci = childs_.begin(); ci != childs_.end(); ci++) {
+					discart = std::async(std::launch::async, std::bind(&node::on_async_handle_event, (*ci), std::placeholders::_1), e);
+				}
 			}
 		}
 
@@ -101,6 +120,7 @@ namespace libsdlpp {
 		std::shared_ptr<node> parent_;
 
 		bool visible_;
+		bool handle_events_;
 
 		position pos_;
 

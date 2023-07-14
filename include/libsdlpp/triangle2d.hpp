@@ -8,11 +8,12 @@
 namespace libsdlpp {
 	class triangle2d : public shape2d {
 	public:
-		triangle2d(std::shared_ptr<node> parent, uint16_t w, uint16_t h, position pos = position(0, 0), color background = color::black()) :
+		triangle2d(std::shared_ptr<node> parent, uint16_t w, uint16_t h, position pos = position(0, 0), color bc = color::black()) :
 			shape2d(parent, pos) {
 			set_size(w, h);
-			border_color_ = color::white();
-			background_color_ = background;
+			set_border_color(color::white());
+			set_background_color(bc);
+			ignore_events();
 		}
 
 		void set_pos(position p) {
