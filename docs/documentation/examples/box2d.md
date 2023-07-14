@@ -1,11 +1,8 @@
 ---
-layout: post
-title: "Box2d"
-date: 2023-07-06 18:37:54 -0300
-categories: sdl libsdlpp box2d example
-description: Hello World
+layout: page
+permalink: /documentation/examples/box2d
 ---
-This is the first example to using box2d libsdlpp
+Example to using box2d libsdlpp
 
 ```cpp
 #include "libsdlpp/window.hpp"

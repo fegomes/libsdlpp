@@ -1,11 +1,9 @@
 ---
-layout: post
-title: "Getting Started"
-date: 2023-07-06 18:37:54 -0300
-categories: sdl libsdlpp hello example
-description: Getting Started
+layout: page
+title: Getting Started
+permalink: /getting-started/
 ---
-This is the first example to using libsdlpp
+This is the first example (Hello World) to using libsdlpp
 
 ```cpp
 #include "libsdlpp/window.hpp"
@@ -22,4 +20,3 @@ int main(int argc, char* argv[])
     return 1;
 }
 ```
-

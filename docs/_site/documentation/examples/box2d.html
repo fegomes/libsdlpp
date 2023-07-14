@@ -3,21 +3,20 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Getting Started | Libsdlpp</title>
+<title>Libsdlpp | Libsdlpp is a Cpp Layer around the SDL2.</title>
 <meta name="generator" content="Jekyll v3.9.3" />
-<meta property="og:title" content="Getting Started" />
+<meta property="og:title" content="Libsdlpp" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Getting Started" />
-<meta property="og:description" content="Getting Started" />
-<link rel="canonical" href="http://localhost:4000/libsdlpp/sdl/libsdlpp/hello/example/2023/07/06/hello-world.html" />
-<meta property="og:url" content="http://localhost:4000/libsdlpp/sdl/libsdlpp/hello/example/2023/07/06/hello-world.html" />
+<meta name="description" content="Libsdlpp is a Cpp Layer around the SDL2." />
+<meta property="og:description" content="Libsdlpp is a Cpp Layer around the SDL2." />
+<link rel="canonical" href="http://localhost:4000/libsdlpp/documentation/examples/box2d" />
+<meta property="og:url" content="http://localhost:4000/libsdlpp/documentation/examples/box2d" />
 <meta property="og:site_name" content="Libsdlpp" />
-<meta property="og:type" content="article" />
-<meta property="article:published_time" content="2023-07-06T18:37:54-03:00" />
+<meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Getting Started" />
+<meta property="twitter:title" content="Libsdlpp" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-07-06T18:37:54-03:00","datePublished":"2023-07-06T18:37:54-03:00","description":"Getting Started","headline":"Getting Started","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/libsdlpp/sdl/libsdlpp/hello/example/2023/07/06/hello-world.html"},"url":"http://localhost:4000/libsdlpp/sdl/libsdlpp/hello/example/2023/07/06/hello-world.html"}</script>
+{"@context":"https://schema.org","@type":"WebPage","description":"Libsdlpp is a Cpp Layer around the SDL2.","headline":"Libsdlpp","url":"http://localhost:4000/libsdlpp/documentation/examples/box2d"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/libsdlpp/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/libsdlpp/feed.xml" title="Libsdlpp" /></head>
 <body><header class="site-header" role="banner">
@@ -32,24 +31,22 @@
           </span>
         </label>
 
-        <div class="trigger"><a class="page-link" href="/libsdlpp/about/">About</a></div>
+        <div class="trigger"><a class="page-link" href="/libsdlpp/about/">About</a><a class="page-link" href="/libsdlpp/documentation/">Documentation</a><a class="page-link" href="/libsdlpp/getting-started/">Getting Started</a></div>
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+        <article class="post">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Getting Started</h1>
-    <p class="post-meta">
-      <time class="dt-published" datetime="2023-07-06T18:37:54-03:00" itemprop="datePublished">Jul 6, 2023
-      </time></p>
+    <h1 class="post-title"></h1>
   </header>
 
-  <div class="post-content e-content" itemprop="articleBody">
-    <p>This is the first example to using libsdlpp</p>
+  <div class="post-content">
+    <p>Example to using box2d libsdlpp</p>
 
 <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include "libsdlpp/window.hpp"
+#include "libsdlpp/box2d.hpp"
 </span>
 <span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> 
 <span class="p">{</span>
@@ -57,15 +54,18 @@
 
     <span class="n">window</span> <span class="n">w</span><span class="p">(</span><span class="s">"Hello World"</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">);</span>
 
+    <span class="k">auto</span> <span class="n">box</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">box2d</span><span class="o">&gt;</span><span class="p">(</span><span class="nb">nullptr</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span> <span class="n">position</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">color</span><span class="o">::</span><span class="n">red</span><span class="p">());</span>
+
     <span class="n">w</span><span class="p">.</span><span class="n">init</span><span class="p">();</span>
+    <span class="n">w</span><span class="p">.</span><span class="n">set_child</span><span class="p">(</span><span class="n">box</span><span class="p">.</span><span class="n">release</span><span class="p">());</span>
     <span class="n">w</span><span class="p">.</span><span class="n">run</span><span class="p">();</span>
 
     <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
+  </div>
 
-  </div><a class="u-url" href="/libsdlpp/sdl/libsdlpp/hello/example/2023/07/06/hello-world.html" hidden></a>
 </article>
 
       </div>
@@ -82,11 +82,11 @@
           <li class="p-name">Libsdlpp</li><li><a class="u-email" href="mailto:nandogsilva@hotmail.com">nandogsilva@hotmail.com</a></li></ul>
       </div>
 
-      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/jekyll"><svg class="svg-icon"><use xlink:href="/libsdlpp/assets/minima-social-icons.svg#github"></use></svg> <span class="username">jekyll</span></a></li><li><a href="https://www.twitter.com/jekyllrb"><svg class="svg-icon"><use xlink:href="/libsdlpp/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">jekyllrb</span></a></li></ul>
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/fegomes"><svg class="svg-icon"><use xlink:href="/libsdlpp/assets/minima-social-icons.svg#github"></use></svg> <span class="username">fegomes</span></a></li><li><a href="https://www.twitter.com/khito"><svg class="svg-icon"><use xlink:href="/libsdlpp/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">khito</span></a></li></ul>
 </div>
 
       <div class="footer-col footer-col-3">
-        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</p>
+        <p>Libsdlpp is a Cpp Layer around the SDL2.</p>
       </div>
     </div>
 
