@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
 
 	window w("Hello World", 800, 600);
 
-	auto box = std::make_unique<triangle2d>(nullptr, 100, 100 , position(100, 100), color::red());
+	auto box = std::make_unique<box2d>(nullptr, 100, 100, position(100, 100), color::red());
 	
 	box->show_border();
 	box->set_border_color(color::black());

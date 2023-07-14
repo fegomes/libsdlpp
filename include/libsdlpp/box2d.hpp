@@ -36,10 +36,17 @@ namespace libsdlpp {
 					border_color_.blue_,
 					border_color_.alpha_);
 
-				SDL_RenderDrawLine(renderer.get(), pos_.x(), pos_.y(), pos_.x(), height_ + pos_.y());
-				SDL_RenderDrawLine(renderer.get(), pos_.x(), height_ + pos_.y(), height_ + pos_.x(), width_ + pos_.y());
-				SDL_RenderDrawLine(renderer.get(), height_ + pos_.x(), width_ + pos_.y(), height_ + pos_.x(), pos_.y());
-				SDL_RenderDrawLine(renderer.get(), height_ + pos_.x(), pos_.y(), pos_.x(), pos_.y());
+				// border left
+				SDL_RenderDrawLine(renderer.get(), pos_.x(), pos_.y(), pos_.x(), pos_.y() + height_);
+
+				// border bottom
+				SDL_RenderDrawLine(renderer.get(), pos_.x(), pos_.y() + height_, pos_.x() + width_, pos_.y() + height_);
+				
+				// border right
+				SDL_RenderDrawLine(renderer.get(), pos_.x() + width_, pos_.y() + height_, pos_.x() + width_, pos_.y());
+				
+				// border top
+				SDL_RenderDrawLine(renderer.get(), pos_.x() + width_, pos_.y(), pos_.x(), pos_.y());
 			}
 		}
 
