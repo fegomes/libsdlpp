@@ -40,6 +40,10 @@ namespace libsdlpp {
 	protected:
 		virtual void on_render(sdl_renderer_ptr renderer) = 0;
 
+	private:
+		void handle_event(const SDL_Event& e) {};
+		void async_handle_event(const SDL_Event& e) {};
+
 	protected:
 		color background_color_;
 		color border_color_;
