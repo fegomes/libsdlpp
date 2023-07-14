@@ -1,7 +1,7 @@
 #pragma once
 #include <cassert>
 #include <memory>
-#include <vector>
+#include <map>
 #include <future>
 
 #include "position.hpp"
@@ -9,9 +9,9 @@
 #include "renderer.hpp"
 
 namespace libsdlpp {
-	class node {
+	class node : std::enable_shared_from_this<node> {
 	public:
-		node(std::shared_ptr<node> parent) : 
+		node(std::shared_ptr<node> parent) :
 			parent_(parent), visible_(true), handle_events_(true), pos_(0,0), width_(0), height_(0) {
 		}
 
@@ -78,6 +78,41 @@ namespace libsdlpp {
 			handle_events_ = true;
 		}
 
+		void set_parent(std::shared_ptr<node> parent) {
+			parent_ = parent;
+		}
+
+		bool add_child(const std::string& name, std::shared_ptr<node> child, bool force = true) {
+
+			bool result = true;
+
+			child->set_parent(self());
+
+			if (force) 
+			{
+				childs_[name] = child;
+			}
+			else 
+			{
+				auto ci = childs_.find(name);
+
+				if (ci != childs_.end()) 
+				{
+					result = false;
+				}
+				else 
+				{
+					childs_[name] = child;
+				}
+			}
+
+			return result;
+		}
+
+		void remove_child(const std::string& name) {
+			childs_.erase(name);
+		}
+
 		void render(sdl_renderer_ptr renderer) {
 			if (visible()) {
 
@@ -85,7 +120,7 @@ namespace libsdlpp {
 
 				for (auto ci = childs_.begin(); ci != childs_.end(); ci++) {
 					if (visible()) {
-						(*ci)->on_render(renderer);
+						ci->second->on_render(renderer);
 					}
 				}
 			}
@@ -96,7 +131,7 @@ namespace libsdlpp {
 				on_handle_event(e);
 
 				for (auto ci = childs_.begin(); ci != childs_.end(); ci++) {
-					(*ci)->on_handle_event(e);
+					ci->second->on_handle_event(e);
 				}
 			}
 		}
@@ -106,9 +141,14 @@ namespace libsdlpp {
 				std::future<void> discart = std::async(std::launch::async, std::bind(&node::on_async_handle_event, this, std::placeholders::_1), e);
 
 				for (auto ci = childs_.begin(); ci != childs_.end(); ci++) {
-					discart = std::async(std::launch::async, std::bind(&node::on_async_handle_event, (*ci), std::placeholders::_1), e);
+					discart = std::async(std::launch::async, std::bind(&node::on_async_handle_event, ci->second, std::placeholders::_1), e);
 				}
 			}
+		}
+
+	protected:
+		std::shared_ptr<node> self() {
+			return shared_from_this();
 		}
 
 	protected:
@@ -127,6 +167,6 @@ namespace libsdlpp {
 		uint16_t width_;
 		uint16_t height_;
 
-		std::vector<std::shared_ptr<node>> childs_;
+		std::map<std::string, std::shared_ptr<node>> childs_;
 	};
 }
