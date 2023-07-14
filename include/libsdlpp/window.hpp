@@ -96,20 +96,28 @@ namespace libsdlpp {
 		bool poll_event() {
 
 			if (SDL_PollEvent(&event_) != 0) {
-				return handle_event(&event_);
+				std::future<void> discart = std::async(std::launch::async, std::bind(&window::async_handle_event,this, std::placeholders::_1), event_);
+				return handle_event(event_);
 			}
 
 			return true;
 		}
 
-		bool handle_event(SDL_Event* e) {
+		bool handle_event(const SDL_Event& e) {
 
-			if (e->type == SDL_QUIT) {
+			if (e.type == SDL_QUIT) {
 				return false;
 			}
 
+			child_->handle_event(e);
+
 			return true;
 		}
+
+		void async_handle_event(const SDL_Event& e) {
+			child_->async_handle_event(e);
+		}
+
 
 		void run() {
 			while (running_) {

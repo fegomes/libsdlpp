@@ -2,6 +2,7 @@
 #include <cassert>
 #include <memory>
 #include <vector>
+#include <future>
 
 #include "position.hpp"
 #include "color.hpp"
@@ -74,7 +75,27 @@ namespace libsdlpp {
 			}
 		}
 
-		virtual void on_render(sdl_renderer_ptr renderer) = 0;
+		void handle_event(const SDL_Event& e) {
+
+			on_handle_event(e);
+
+			for (auto ci = childs_.begin(); ci != childs_.end(); ci++) {
+				(*ci)->on_handle_event(e);
+			}
+		}
+
+		void async_handle_event(const SDL_Event& e) {
+			std::future<void> discart = std::async(std::launch::async, std::bind(&node::on_async_handle_event, this, std::placeholders::_1), e);
+
+			for (auto ci = childs_.begin(); ci != childs_.end(); ci++) {
+				discart = std::async(std::launch::async, std::bind(&node::on_async_handle_event, (*ci), std::placeholders::_1), e);
+			}
+		}
+
+	protected:
+		virtual void on_handle_event(const SDL_Event& e) {}
+		virtual void on_async_handle_event(const SDL_Event& e) {}
+		virtual void on_render(sdl_renderer_ptr renderer) {};
 
 	protected:
 		std::shared_ptr<node> parent_;

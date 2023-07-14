@@ -6,7 +6,7 @@ namespace libsdlpp {
 	class shape2d : public node {
 	public:
 		shape2d(std::shared_ptr<node> parent, position pos = position(0,0)) :
-			node(parent) {
+			node(parent), border_(false) {
 			set_pos(pos);
 		}
 
@@ -29,6 +29,9 @@ namespace libsdlpp {
 		void set_border_color(color c) {
 			this->border_color_ = c;
 		}
+
+	protected:
+		virtual void on_render(sdl_renderer_ptr renderer) = 0;
 
 	protected:
 		color background_color_;
