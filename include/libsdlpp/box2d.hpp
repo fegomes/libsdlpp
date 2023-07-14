@@ -7,11 +7,8 @@ namespace libsdlpp {
 	class box2d : public shape2d {
 	public:
 		box2d(std::shared_ptr<node> parent, uint16_t w, uint16_t h, position pos = position(0, 0), color bc = color::black()) :
-			shape2d(parent, pos) {
+			shape2d(parent, pos, bc) {
 			set_size(w, h);
-			set_border_color(color::white());
-			set_background_color(bc);
-			ignore_events();
 		}
 
 		void on_render(sdl_renderer_ptr renderer) {
