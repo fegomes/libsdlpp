@@ -5,9 +5,16 @@
 namespace libsdlpp {
 	class shape2d : public node {
 	public:
+
+        shape2d(position pos = position(0, 0), color bc = color::black()) :
+            node(nullptr, pos), border_(false) {
+            set_border_color(color::white());
+            set_background_color(bc);
+            ignore_events();
+        }
+
 		shape2d(std::shared_ptr<node> parent, position pos = position(0,0), color bc = color::black()) :
-			node(parent), border_(false) {
-			set_pos(pos);
+			node(parent, pos), border_(false) {
 			set_border_color(color::white());
 			set_background_color(bc);
 			ignore_events();

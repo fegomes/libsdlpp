@@ -9,14 +9,26 @@
 #include "renderer.hpp"
 
 namespace libsdlpp {
-	class node : std::enable_shared_from_this<node> {
+	class node : public std::enable_shared_from_this<node> {
+
 	public:
-		node(std::shared_ptr<node> parent) :
-			parent_(parent), visible_(true), handle_events_(true), pos_(0,0), width_(0), height_(0) {
+        node(position pos = position(0, 0)) :
+            parent_(nullptr), visible_(true), handle_events_(true), pos_(pos), width_(0), height_(0) {
+        }
+
+		node(std::shared_ptr<node> parent, position pos = position(0,0)) :
+			parent_(parent), visible_(true), handle_events_(true), pos_(pos), width_(0), height_(0) {
+
+			if (parent_ == nullptr) {
+				parent_ = std::make_shared<node>();
+			}
+
 		}
 
-		~node() { 
-			this->childs_.clear();
+		virtual ~node() { 
+			if (!this->childs_.empty()) {
+				this->childs_.clear();
+			}
 		}
 
 		position pos() const {
@@ -76,6 +88,10 @@ namespace libsdlpp {
 		
 		void accept_events() {
 			handle_events_ = true;
+		}
+
+		std::shared_ptr<node> parent() {
+			return parent_;
 		}
 
 		void set_parent(std::shared_ptr<node> parent) {

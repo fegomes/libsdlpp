@@ -8,10 +8,16 @@
 namespace libsdlpp {
 	class circle2d : public shape2d {
 	public:
+        circle2d(uint16_t radius, position pos = position(0, 0), color bc = color::black()) :
+            shape2d(nullptr, pos, bc), radius_(radius) {
+            pos_.set_x(pos_.x() + radius);
+            pos_.set_y(pos_.y() + radius);
+        }
+
 		circle2d(std::shared_ptr<node> parent, uint16_t radius, position pos = position(0, 0), color bc = color::black()) :
 			shape2d(parent, pos, bc), radius_(radius) {
-			pos_.set_x(pos_.x() + radius);
-			pos_.set_y(pos_.y() + radius);
+			pos_.set_x(pos_.x() + parent->pos().x() + radius);
+			pos_.set_y(pos_.y() + parent->pos().y() + radius);
 		}
 
 		void on_render(sdl_renderer_ptr renderer) {
@@ -33,10 +39,29 @@ namespace libsdlpp {
 
 			while (offsety >= offsetx) {
 
-				status += SDL_RenderDrawLine(renderer.get(), pos_.x() - offsety, pos_.y() + offsetx, pos_.x() + offsety, pos_.y() + offsetx);
-				status += SDL_RenderDrawLine(renderer.get(), pos_.x() - offsetx, pos_.y() + offsety, pos_.x() + offsetx, pos_.y() + offsety);
-				status += SDL_RenderDrawLine(renderer.get(), pos_.x() - offsetx, pos_.y() - offsety, pos_.x() + offsetx, pos_.y() - offsety);
-				status += SDL_RenderDrawLine(renderer.get(), pos_.x() - offsety, pos_.y() - offsetx, pos_.x() + offsety, pos_.y() - offsetx);
+				status += SDL_RenderDrawLine( renderer.get(), 
+											  pos_.x() + parent()->pos().x() - offsety,
+											  pos_.y() + parent()->pos().y() + offsetx, 
+					                          pos_.x() + parent()->pos().x() + offsety, 
+					                          pos_.y() + parent()->pos().y() + offsetx);
+
+				status += SDL_RenderDrawLine( renderer.get(), 
+											  pos_.x() + parent()->pos().x() - offsetx, 
+                                              pos_.y() + parent()->pos().y() + offsety,
+                                              pos_.x() + parent()->pos().x() + offsetx,
+                                              pos_.y() + parent()->pos().y() + offsety);
+
+				status += SDL_RenderDrawLine( renderer.get(), 
+					                          pos_.x() + parent()->pos().x() - offsetx, 
+					                          pos_.y() + parent()->pos().y() - offsety, 
+					                          pos_.x() + parent()->pos().x() + offsetx, 
+					                          pos_.y() + parent()->pos().y() - offsety);
+
+				status += SDL_RenderDrawLine( renderer.get(), 
+					                          pos_.x() + parent()->pos().x() - offsety, 
+					                          pos_.y() + parent()->pos().y() - offsetx, 
+					                          pos_.x() + parent()->pos().x() + offsety, 
+					                          pos_.y() + parent()->pos().y() - offsetx);
 
 				if (status < 0) {
 					status = -1;
@@ -73,14 +98,14 @@ namespace libsdlpp {
 				status = 0;
 
 				while (offsety >= offsetx) {
-					status += SDL_RenderDrawPoint(renderer.get(), pos_.x() + offsetx, pos_.y() + offsety);
-					status += SDL_RenderDrawPoint(renderer.get(), pos_.x() + offsety, pos_.y() + offsetx);
-					status += SDL_RenderDrawPoint(renderer.get(), pos_.x() - offsetx, pos_.y() + offsety);
-					status += SDL_RenderDrawPoint(renderer.get(), pos_.x() - offsety, pos_.y() + offsetx);
-					status += SDL_RenderDrawPoint(renderer.get(), pos_.x() + offsetx, pos_.y() - offsety);
-					status += SDL_RenderDrawPoint(renderer.get(), pos_.x() + offsety, pos_.y() - offsetx);
-					status += SDL_RenderDrawPoint(renderer.get(), pos_.x() - offsetx, pos_.y() - offsety);
-					status += SDL_RenderDrawPoint(renderer.get(), pos_.x() - offsety, pos_.y() - offsetx);
+					status += SDL_RenderDrawPoint(renderer.get(), pos_.x() + parent()->pos().x() + offsetx, pos_.y() + parent()->pos().y() + offsety);
+					status += SDL_RenderDrawPoint(renderer.get(), pos_.x() + parent()->pos().x() + offsety, pos_.y() + parent()->pos().y() + offsetx);
+					status += SDL_RenderDrawPoint(renderer.get(), pos_.x() + parent()->pos().x() - offsetx, pos_.y() + parent()->pos().y() + offsety);
+					status += SDL_RenderDrawPoint(renderer.get(), pos_.x() + parent()->pos().x() - offsety, pos_.y() + parent()->pos().y() + offsetx);
+					status += SDL_RenderDrawPoint(renderer.get(), pos_.x() + parent()->pos().x() + offsetx, pos_.y() + parent()->pos().y() - offsety);
+					status += SDL_RenderDrawPoint(renderer.get(), pos_.x() + parent()->pos().x() + offsety, pos_.y() + parent()->pos().y() - offsetx);
+					status += SDL_RenderDrawPoint(renderer.get(), pos_.x() + parent()->pos().x() - offsetx, pos_.y() + parent()->pos().y() - offsety);
+					status += SDL_RenderDrawPoint(renderer.get(), pos_.x() + parent()->pos().x() - offsety, pos_.y() + parent()->pos().y() - offsetx);
 
 					if (status < 0) {
 						status = -1;

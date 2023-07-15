@@ -46,6 +46,8 @@ namespace libsdlpp {
 			if (window_) {
 				window_.release();
 			}
+
+			child_.release();
 		}
 
 	public:
@@ -117,7 +119,6 @@ namespace libsdlpp {
 		void async_handle_event(const SDL_Event& e) {
 			child_->async_handle_event(e);
 		}
-
 
 		void run() {
 			while (running_) {

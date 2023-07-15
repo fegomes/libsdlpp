@@ -6,6 +6,11 @@
 namespace libsdlpp {
 	class box2d : public shape2d {
 	public:
+        box2d(uint16_t w, uint16_t h, position pos = position(0, 0), color bc = color::black()) :
+            shape2d(nullptr, pos, bc) {
+            set_size(w, h);
+        }
+
 		box2d(std::shared_ptr<node> parent, uint16_t w, uint16_t h, position pos = position(0, 0), color bc = color::black()) :
 			shape2d(parent, pos, bc) {
 			set_size(w, h);
@@ -21,8 +26,8 @@ namespace libsdlpp {
 				background_color_.alpha_);
 
 			SDL_Rect r;
-			r.x = pos_.x();
-			r.y = pos_.y();
+			r.x = pos_.x() + parent()->pos().x();
+			r.y = pos_.y() + parent()->pos().y();
 			r.w = width_;
 			r.h = height_;
 
@@ -37,16 +42,31 @@ namespace libsdlpp {
 					border_color_.alpha_);
 
 				// border left
-				SDL_RenderDrawLine(renderer.get(), pos_.x(), pos_.y(), pos_.x(), pos_.y() + height_);
+				SDL_RenderDrawLine(	renderer.get(), 
+									pos_.x() + parent()->pos().x(), 
+									pos_.y() + parent()->pos().y(), 
+									pos_.x() + parent()->pos().x(), 
+									pos_.y() + parent()->pos().y() + height_);
 
 				// border bottom
-				SDL_RenderDrawLine(renderer.get(), pos_.x(), pos_.y() + height_, pos_.x() + width_, pos_.y() + height_);
+				SDL_RenderDrawLine(	renderer.get(), 
+									pos_.x() + parent()->pos().x(), 
+									pos_.y() + parent()->pos().y() + height_, 
+									pos_.x() + parent()->pos().x() + width_, 
+									pos_.y() + parent()->pos().y() + height_);
 				
 				// border right
-				SDL_RenderDrawLine(renderer.get(), pos_.x() + width_, pos_.y() + height_, pos_.x() + width_, pos_.y());
+				SDL_RenderDrawLine(	renderer.get(), 
+									pos_.x() + parent()->pos().x() + width_, 
+									pos_.y() + parent()->pos().y() + height_, 
+									pos_.x() + parent()->pos().x() + width_, 
+									pos_.y() + parent()->pos().y());
 				
 				// border top
-				SDL_RenderDrawLine(renderer.get(), pos_.x() + width_, pos_.y(), pos_.x(), pos_.y());
+				SDL_RenderDrawLine(	renderer.get(), 
+									pos_.x() + parent()->pos().x() + width_,
+									pos_.y() + parent()->pos().y(),
+									pos_.x() + parent()->pos().x(), pos_.y() + parent()->pos().y());
 			}
 		}
 
