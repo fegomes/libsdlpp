@@ -174,6 +174,18 @@ namespace libsdlpp {
 			this->running_ = false;
 		}
 
+		void set_viewport(position p, uint16_t width, uint16_t height) {
+
+            SDL_Rect viewport;
+			viewport.x = p.x();
+			viewport.y = p.y();
+			viewport.w = width;
+			viewport.h = height;
+
+            SDL_RenderSetViewport(renderer_.get(), &viewport);
+
+		}
+
 	protected:
 		sdl_window window_;
 		sdl_renderer_ptr renderer_;
