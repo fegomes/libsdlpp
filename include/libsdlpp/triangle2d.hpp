@@ -12,35 +12,35 @@ namespace libsdlpp {
             shape2d(nullptr, pos, bc) {
             set_size(w, h);
             ignore_events();
-            update_positions();
+			repos();
         }
 
 		triangle2d(std::shared_ptr<node> parent, uint16_t w, uint16_t h, position pos = position(0, 0), color bc = color::black()) :
 			shape2d(parent, pos, bc) {
 			set_size(w, h);
 			ignore_events();
-			update_positions();
+			repos();
 		}
 
 		void set_pos(position p) {
 			shape2d::set_pos(p);
-			update_positions();
+			repos();
 		}
 
 		void set_size(uint16_t w, uint16_t h) {
 			shape2d::set_size(w, h);
-			update_positions();
+			repos();
 		}
 
-		void update_positions() {
-			top_.set_x(((width_ / 2) + pos_.x()) + parent()->pos().x());
-			top_.set_y(pos_.y() + parent()->pos().x());
+		void repos() {
+			top_.set_x(((width_ / 2) + (pos_.x() + parent()->pos().x())) );
+			top_.set_y(pos_.y() + parent()->pos().y());
 
 			left_.set_x(pos_.x() + parent()->pos().x());
 			left_.set_y(height_ + pos_.y() + parent()->pos().y());
 
 			right_.set_x(width_ + pos_.x() + parent()->pos().x());
-			right_.set_y(height_ + pos_.y() + parent()->pos().x());
+			right_.set_y(height_ + pos_.y() + parent()->pos().y());
 		}
 
 		void on_render(sdl_renderer_ptr renderer) {

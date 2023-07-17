@@ -16,6 +16,8 @@ namespace libsdlpp {
 			set_size(w, h);
 		}
 
+		void repos() {}
+
 		void on_render(sdl_renderer_ptr renderer) {
 
 			SDL_SetRenderDrawColor(

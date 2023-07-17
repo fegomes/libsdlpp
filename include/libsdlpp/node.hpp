@@ -13,7 +13,8 @@ namespace libsdlpp {
 
 	public:
         node(position pos = position(0, 0)) :
-            parent_(nullptr), visible_(true), handle_events_(true), pos_(pos), width_(0), height_(0) {
+            parent_(nullptr), visible_(true), handle_events_(true), width_(0), height_(0) {
+			set_pos(pos);
         }
 
 		node(std::shared_ptr<node> parent, position pos = position(0,0)) :
@@ -23,6 +24,7 @@ namespace libsdlpp {
 				parent_ = std::make_shared<node>();
 			}
 
+            set_pos(pos);
 		}
 
 		virtual ~node() { 
@@ -96,6 +98,7 @@ namespace libsdlpp {
 
 		void set_parent(std::shared_ptr<node> parent) {
 			parent_ = parent;
+			repos();
 		}
 
 		bool add_child(const std::string& name, std::shared_ptr<node> child, bool force = true) {
@@ -167,10 +170,12 @@ namespace libsdlpp {
 			return shared_from_this();
 		}
 
+		virtual void repos() {};
+
 	protected:
 		virtual void on_handle_event(const SDL_Event& e) {}
 		virtual void on_async_handle_event(const SDL_Event& e) {}
-		virtual void on_render(sdl_renderer_ptr renderer) {};
+		virtual void on_render(sdl_renderer_ptr renderer) {}
 
 	protected:
 		std::shared_ptr<node> parent_;

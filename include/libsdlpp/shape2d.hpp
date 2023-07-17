@@ -44,6 +44,8 @@ namespace libsdlpp {
 			this->border_color_ = c;
 		}
 
+		virtual void repos() = 0;
+
 	protected:
 		virtual void on_render(sdl_renderer_ptr renderer) = 0;
 

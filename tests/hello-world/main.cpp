@@ -13,9 +13,9 @@ int main(int argc, char* argv[]) {
 
 	auto n = std::make_shared<node>(nullptr, position(100, 100));
 
-	auto box = std::make_shared<box2d>(100, 100, position(100, 100), color::red());
-	auto circle = std::make_shared<circle2d>(50, position(200, 100), color::red());
-	auto triangle = std::make_shared<triangle2d>(100, 100, position(100, 100), color::red());
+	auto box = std::make_shared<box2d>(100, 100, position(0, 0), color::red());
+	auto circle = std::make_shared<circle2d>(50, position(100, 0), color::red());
+	auto triangle = std::make_shared<triangle2d>(100, 100, position(200, 0), color::red());
     box->show_border();
     box->set_border_color(color::black());
 
